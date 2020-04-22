@@ -1,0 +1,16 @@
+{
+  "name": "test-counter",
+  "version": "0.0.1",
+  "description": "test description",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.12.4"
+  },
+  "keywords": [
+    "node"
+  ],
+  "license": "MIT"
+}
