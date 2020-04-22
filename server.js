@@ -19,5 +19,6 @@ io.on("connection", (socket) => {
   console.log(`you are ${numGuests}th guest!`);
   
   socket.emit("hello", {numGuests: numGuests});
+  socket.broadcast.emit("hello", {numGuests: numGuests});
 })
 console.log("hello node.js!")
