@@ -12,18 +12,17 @@
   <body>
     <div id="hello-world-app">
  		<ul>
-			<li v-for="(item, key, index) in objectItems">
-				<input type="radio" v-model="checked" :value="key">
-				<label>{{ key }}</label>
+			<li v-for="(func, key, index) in funcs">
+    <button :onclick="func">{{ key }}</button>
 			</li>
 		</ul>
     </div>
     
-    <button onclick="funcs.oscillate();emit('oscillate')">oscillator</button>
+<!--     <button onclick="funcs.oscillate();emit('oscillate')">oscillator</button>
     <button onclick="funcs.kaleido();emit('kaleido')">kaleido</button>
     <button onclick="funcs.feedback();emit('feedback')">feedback</button>
     <button onclick="funcs.useCamera();emit('useCamera')">camera</button>
-    <button onclick="funcs.useCamera1();emit('useCamera1')">camera 1</button>
+    <button onclick="funcs.useCamera1();emit('useCamera1')">camera 1</button> -->
     <canvas id="myCanvas" width="400px" height="400px"></canvas>
 
     <script src="sketch.js"></script>
