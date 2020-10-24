@@ -6,6 +6,11 @@ socket.on("hello", data => {
   numGuests = data.numGuests;
 });
 
+socket.on("func", data => {
+  if (funcs[data] != undefined) {
+    funcs[data]();
+  }
+});
 function setup() {
   createCanvas(400, 400);
 }
@@ -24,42 +29,47 @@ var hydra = new Hydra({
   canvas: document.getElementById("myCanvas")
 });
 
-function oscillate() {
-  socket.emit("func", "oscillate");
-  osc(20).rotate(0, 0.1).modulate(osc()).out()
-}
+var funcs = {
+  oscillate: doEmit => {
+    // if (doEmit) socket.emit("func", "oscillate");
+    osc(20)
+      .rotate(0, 0.1)
+      .modulate(osc())
+      .out();
+  },
 
-function kaleido() {
-  socket.emit("func", "kaleido");
-  osc(10, 0.1, 0.8)
-    .rotate(0, 0.1)
-    .kaleid()
-    .color(-1, 1)
-    .out();
-}
-// create functions to use with buttons
-function useCamera() {
-  s0.initCam();
-  src(s0)
-    .color(-1, Math.random() * 2, 1)
-    .colorama()
-    .out();
-}
+  kaleido: doEmit => {
+    // if (doEmit) socket.emit("func", "kaleido");
+    osc(10, 0.1, 0.8)
+      .rotate(0, 0.1)
+      .kaleid()
+      .color(-1, 1)
+      .out();
+  },
+  // create functions to use with buttons
+  useCamera: doEmit => {
+    s0.initCam();
+    src(s0)
+      .color(-1, Math.random() * 2, 1)
+      .colorama()
+      .out();
+  },
 
-function feedback() {
-  src(o1)
-    .layer(src(o0).mask(shape(4, 0.4, 0)))
-    .scrollX([0.005, -0.005])
-    .scrollY(0.005)
-    .out(o1);
+  feedback: doEmit => {
+    src(o1)
+      .layer(src(o0).mask(shape(4, 0.4, 0)))
+      .scrollX([0.005, -0.005])
+      .scrollY(0.005)
+      .out(o1);
 
-  render(o1);
-}
+    render(o1);
+  },
 
-function useCamera1() {
-  s0.initCam();
-  src(s0)
-    .thresh()
-    .diff(src(o0).scrollX(0.001))
-    .out();
-}
+  useCamera1: doEmit => {
+    s0.initCam();
+    src(s0)
+      .thresh()
+      .diff(src(o0).scrollX(0.001))
+      .out();
+  }
+};

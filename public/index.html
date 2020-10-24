@@ -10,9 +10,11 @@
 
   </head>
   <body>
-    <button onclick="oscillate()"> oscillator </button>
-    <button onclick="kaleido()"> kaleido </button>
-    <button onclick="feedback()"> feedback </button>
+    <button onclick=`oscillate()emit("oscillate")`> oscillator </button>
+    <button onclick=`kaleido();emit("kaleido")`> kaleido </button>
+    <button onclick="feedback()`> feedback </button>
+    <button onclick=`useCamera()emit("oscillate")`> camera </button>
+    <button onclick="useCamera1()"> camera 1 </button>
     <canvas id="myCanvas" width="400px" height="400px"></canvas>
 
     <script src="sketch.js"></script>
