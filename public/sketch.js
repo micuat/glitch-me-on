@@ -73,8 +73,14 @@ var v = new Vue({
       //here
       fbkCam: `
     src(o0)
-      .layer(src(o0).mask(src(s0).thresh().invert))
+      .saturate(1.05)
+      .layer(src(s0).luma())
       .out();`,  
+        
+      boxOnTop: `
+    src(o1).layer(shape(4,0.5,0.01).luma()).out(o1);
+    render(o1)`,
+
       }
     };
   }
