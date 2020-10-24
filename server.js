@@ -14,6 +14,7 @@ app.use(express.static('public'));
 
 let numGuests = 0;
 
+
 io.on("connection", (socket) => {
   numGuests++;
   console.log(`you are ${numGuests}th guest!`);

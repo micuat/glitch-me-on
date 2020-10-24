@@ -7,34 +7,29 @@ socket.on("hello", data => {
 });
 
 socket.on("func", data => {
-  if (funcs[data] != undefined) {
-    funcs[data]();
+  if (v.funcs[data] != undefined) {
+    eval(v.funcs[data]);
   }
 });
-function setup() {
-  createCanvas(400, 400);
-}
-
-function draw() {
-  background(0);
-  ellipse(mouseX, mouseY, 40);
-
-  fill(255);
-  textSize(50);
-  text(numGuests + " guest", 100, 100);
-}
 
 // create a new hydra-synth instance
 var hydra = new Hydra({
   canvas: document.getElementById("myCanvas")
 });
 
-function emit(func) {
-  socket.emit("func", func);
-}
+osc(20,0.1,2).out();
 
-new Vue({
+var v = new Vue({
   el: "#hello-world-app",
+  methods: {
+  emit: function(ev, key){
+    console.log(ev) // this is the event
+    console.log(key) // i is index of v-for
+    eval(this.funcs[key]);
+  socket.emit("func", key);
+    
+  }
+},
   data() {
     return {
 funcs: {
