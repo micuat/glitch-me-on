@@ -1,6 +1,4 @@
 html, body {
-  display:flex;
-  
   margin: 0;
   padding: 0;
   background-color: grey;
@@ -10,3 +8,8 @@ canvas {
   display: block;
 }
 
+button{
+  display:flex;
+  flex-direction:row;
+  
+}

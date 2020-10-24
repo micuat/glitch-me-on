@@ -4,17 +4,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/addons/p5.sound.min.js"></script>
     <script src="https://unpkg.com/hydra-synth"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <meta charset="utf-8" />
-
   </head>
   <body>
-    <button onclick=`oscillate()emit("oscillate")`> oscillator </button>
-    <button onclick=`kaleido();emit("kaleido")`> kaleido </button>
-    <button onclick="feedback()`> feedback </button>
-    <button onclick=`useCamera()emit("oscillate")`> camera </button>
-    <button onclick="useCamera1()"> camera 1 </button>
+    <div id="hello-world-app">
+ 		<ul>
+			<li v-for="(item, key, index) in objectItems">
+				<input type="radio" v-model="checked" :value="key">
+				<label>{{ key }}</label>
+			</li>
+		</ul>
+    </div>
+    
+    <button onclick="funcs.oscillate();emit('oscillate')">oscillator</button>
+    <button onclick="funcs.kaleido();emit('kaleido')">kaleido</button>
+    <button onclick="funcs.feedback();emit('feedback')">feedback</button>
+    <button onclick="funcs.useCamera();emit('useCamera')">camera</button>
+    <button onclick="funcs.useCamera1();emit('useCamera1')">camera 1</button>
     <canvas id="myCanvas" width="400px" height="400px"></canvas>
 
     <script src="sketch.js"></script>

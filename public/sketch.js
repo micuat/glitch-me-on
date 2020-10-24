@@ -29,17 +29,31 @@ var hydra = new Hydra({
   canvas: document.getElementById("myCanvas")
 });
 
+function emit(func) {
+  socket.emit("func", func);
+}
+
+new Vue({
+  el: "#hello-world-app",
+  data() {
+    return {
+      objectItems: {
+        key1: "item1",
+        key2: "item 2",
+        key3: "item3"
+      }
+    };
+  }
+});
 var funcs = {
-  oscillate: doEmit => {
-    // if (doEmit) socket.emit("func", "oscillate");
+  oscillate: () => {
     osc(20)
       .rotate(0, 0.1)
       .modulate(osc())
       .out();
   },
 
-  kaleido: doEmit => {
-    // if (doEmit) socket.emit("func", "kaleido");
+  kaleido: () => {
     osc(10, 0.1, 0.8)
       .rotate(0, 0.1)
       .kaleid()
@@ -47,7 +61,7 @@ var funcs = {
       .out();
   },
   // create functions to use with buttons
-  useCamera: doEmit => {
+  useCamera: () => {
     s0.initCam();
     src(s0)
       .color(-1, Math.random() * 2, 1)
@@ -55,7 +69,7 @@ var funcs = {
       .out();
   },
 
-  feedback: doEmit => {
+  feedback: () => {
     src(o1)
       .layer(src(o0).mask(shape(4, 0.4, 0)))
       .scrollX([0.005, -0.005])
@@ -65,7 +79,7 @@ var funcs = {
     render(o1);
   },
 
-  useCamera1: doEmit => {
+  useCamera1: () => {
     s0.initCam();
     src(s0)
       .thresh()
