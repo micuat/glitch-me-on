@@ -20,5 +20,7 @@ io.on("connection", (socket) => {
   
   socket.emit("hello", {numGuests: numGuests});
   socket.broadcast.emit("hello", {numGuests: numGuests});
+  
+  // socket.on("func");
 })
 console.log("hello node.js!")
