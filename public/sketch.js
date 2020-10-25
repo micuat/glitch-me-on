@@ -1,17 +1,5 @@
 const socket = io();
 
-let numGuests = 0;
-socket.on("hello", data => {
-  console.log(data);
-  numGuests = data.numGuests;
-});
-
-socket.on("func", data => {
-  if (v.funcs[data] != undefined) {
-    eval(v.funcs[data]);
-  }
-});
-
 // create a new hydra-synth instance
 var hydra = new Hydra({
   canvas: document.getElementById("myCanvas")
@@ -76,22 +64,34 @@ var v = new Vue({
     render(o0);
 `,
 
-      //here
-      fbkCam: `
+        //here
+        fbkCam: `
     src(o0)
       .saturate(1.05)
       .layer(src(s0).luma())
       .out();
     render(o0);
-`,  
-        
-      boxOnTop: `
+`,
+
+        boxOnTop: `
     src(o0).layer(osc(60,0.1,2).mask(shape(4,0.5,0.01)).luma()).out(o1);
     render(o1)`,
-         head: `
+        head: `
     src(o0).layer(gradient().repeat(10,10).colorama(0.5).modulate(osc(3).rotate(0.5)).modulateScale(osc(2).rotate(0.5),-0.5).mask(shape(200,0.2,0.1).scale(1.7,0.4).scrollY(0.08)).luma(0.01)).out(o1);
-    render(o1)`,
+    render(o1)`
       }
     };
+  }
+});
+
+let numGuests = 0;
+socket.on("hello", data => {
+  console.log(data);
+  numGuests = data.numGuests;
+});
+
+socket.on("func", data => {
+  if (v.funcs[data] != undefined) {
+    eval(v.funcs[data]);
   }
 });
