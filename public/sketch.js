@@ -71,7 +71,9 @@ var v = new Vue({
 
         useCamera1: () => {
           src(s0)
-           .scale(() => v.sliders[0].val)
+           .scale(() => 1+v.sliders[0].val*0.1)
+           .scrollY(() => 1+v.sliders[1].val*0.1)
+           .scrollX(() => 1+v.sliders[2].val*0.1)
             .thresh()
             .diff(src(o0).scrollX(0.001))
             .out();
@@ -81,6 +83,9 @@ var v = new Vue({
 
         hueCamera: () => {
           src(o0)
+          .scale(() => 1+v.sliders[0].val*0.1)
+           .scrollY(() => 1+v.sliders[1].val*0.1)
+           .scrollX(() => 1+v.sliders[2].val*0.1)
             .modulateHue(src(o0).scale(1.01), 8)
             .layer(
               src(s0)
