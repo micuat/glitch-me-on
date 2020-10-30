@@ -17,7 +17,7 @@
 			</div>
 			<div v-for="(slider, key) in sliders">
         <input type="range" name="key" 
-         min="0" max="128" v-model="slider.val">
+         min="0" max="128" v-model="slider.val" onchange="emitSliders()">
 			</div>
     </div>
     

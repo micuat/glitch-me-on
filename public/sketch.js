@@ -17,16 +17,21 @@ var v = new Vue({
       socket.emit("func", key);
     }
   },
-  mounted: function() {
-    this.$watch(
-      "sliders",
-      function() {
-        // console.log("a thing changed");
-        socket.emit("sliders", [this.sliders[0].val]);
-      },
-      { deep: true }
-    );
-  },
+  // mounted: function() {
+  //   this.$watch(
+  //     "sliders",
+  //     function() {
+  //       // console.log("a thing changed");
+  //       socket.emit("sliders", [
+  //         this.sliders[0].val,
+  //         this.sliders[1].val,
+  //         this.sliders[2].val,
+  //         this.sliders[3].val
+  //       ]);
+  //     },
+  //     { deep: true }
+  //   );
+  // },
   data() {
     return {
       sliders: [{ val: 0 }, { val: 0 }, { val: 0 }, { val: 0 }],
@@ -66,9 +71,11 @@ var v = new Vue({
 
         useCamera1: () => {
           src(s0)
+           .scale(() => v.sliders[0].val)
             .thresh()
-            .diff(src(o0).scrollX(() => v.sliders[0].val * 0.001))
+            .diff(src(o0).scrollX(0.001))
             .out();
+
           render(o0);
         },
 
@@ -136,4 +143,20 @@ socket.on("func", data => {
   if (v.funcs[data] != undefined) {
     v.funcs[data]();
   }
+});
+
+function emitSliders() {
+  // console.log("a thing changed");
+  socket.emit("sliders", [
+    v.sliders[0].val,
+    v.sliders[1].val,
+    v.sliders[2].val,
+    v.sliders[3].val
+  ]);
+}
+socket.on("sliders", data => {
+  v.sliders[0].val = data[0];
+  v.sliders[1].val = data[1];
+  v.sliders[2].val = data[2];
+  v.sliders[3].val = data[3];
 });

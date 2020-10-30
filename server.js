@@ -27,5 +27,10 @@ io.on("connection", socket => {
     console.log(data);
     socket.broadcast.emit("func", data);
   });
+  socket.on("sliders", function(data) {
+    // lastData = data;
+    console.log(data);
+    socket.broadcast.emit("sliders", data);
+  });
 });
 console.log("hello node.js!");
