@@ -17,26 +17,33 @@ var v = new Vue({
       socket.emit("func", key);
     }
   },
+  mounted: function() {
+    this.$watch(
+      "sliders",
+      function() {
+        // console.log("a thing changed");
+        socket.emit("sliders", [this.sliders[0].val]);
+      },
+      { deep: true }
+    );
+  },
   data() {
     return {
-      sliders: [
-        {val: 0},
-        {val: 10},
-      ],
+      sliders: [{ val: 0 }, { val: 0 }, { val: 0 }, { val: 0 }],
       funcs: {
-        oscillate: () =>{
-          osc(()=>v.sliders[0].val*1)
+        oscillate: () => {
+          osc(() => v.sliders[0].val)
             .rotate(0, 0.1)
             .modulate(osc())
-            .out(); console.log(v.sliders[0].val)
-        
-      },
+            .out();
+        },
 
         kaleido: () =>
           osc(10, 0.1, 0.8)
             .rotate(0, 0.1)
             .kaleid()
-            .color(-1, 1)
+            //.color(-1, 1)
+            .hue(() => v.sliders[0].val)
             .out(),
         // create functions to use with buttons
         useCamera: () => {
@@ -60,7 +67,7 @@ var v = new Vue({
         useCamera1: () => {
           src(s0)
             .thresh()
-            .diff(src(o0).scrollX(0.001))
+            .diff(src(o0).scrollX(() => v.sliders[0].val * 0.001))
             .out();
           render(o0);
         },
