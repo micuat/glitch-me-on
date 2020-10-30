@@ -92,6 +92,7 @@ var v = new Vue({
                 .luma(0.3)
                 .hue(() => time / 10)
             )
+          .saturate(() => 1+v.sliders[3].val*0.05)
             .out();
           render(o0);
         },
@@ -108,7 +109,7 @@ var v = new Vue({
         boxOnTop: () => {
           src(o0)
             .layer(
-              osc(60, 0.1, 2)
+              osc(60, 0.1, 2).modulate(noise(10),() => v.sliders[0].val*0.001)
                 .mask(shape(4, 0.5, 0.01))
                 .luma()
             )
