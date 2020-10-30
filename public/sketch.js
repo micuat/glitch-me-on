@@ -21,14 +21,16 @@ var v = new Vue({
     return {
       sliders: [
         {val: 0},
-        {val: 1},
+        {val: 10},
       ],
       funcs: {
-        oscillate: () =>
-          osc(20)
+        oscillate: () =>{
+          osc(()=>v.sliders[0].val*1)
             .rotate(0, 0.1)
             .modulate(osc())
-            .out(),
+            .out(); console.log(v.sliders[0].val)
+        
+      },
 
         kaleido: () =>
           osc(10, 0.1, 0.8)
