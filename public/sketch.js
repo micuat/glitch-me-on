@@ -19,6 +19,10 @@ var v = new Vue({
   },
   data() {
     return {
+      sliders: [
+        {val: 0},
+        {val: 1},
+      ],
       funcs: {
         oscillate: () =>
           osc(20)

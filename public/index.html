@@ -15,6 +15,9 @@
 			<div v-for="(func, key, index) in funcs">
     <button v-on:click="emit($event, key)">{{ key }}</button>
 			</div>
+			<div v-for="(func, key, index) in sliders">
+    <button v-on:click="emit($event, key)">{{ key }}</button>
+			</div>
     </div>
     
 <!--     <button onclick="funcs.oscillate();emit('oscillate')">oscillator</button>
