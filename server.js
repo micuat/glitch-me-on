@@ -29,6 +29,9 @@ io.on("connection", socket => {
     console.log(data);
     socket.broadcast.emit("func", data);
   });
+  socket.on("message", function(data) {
+    socket.broadcast.emit("message", data);
+  });
   socket.on("sliders", function(data) {
     // lastData = data;
     for(let i = 0; i < data.length; i++) {

@@ -14,14 +14,19 @@ function setup() {
 }
 
 function draw() {
-  textSize(64)
+  clear();
   textAlign(CENTER, CENTER);
-  fill("crimson");
-  text(txt, width/2, height/2);
-  txt = "";
+  fill("white");
+  if (txts.length > 0) {
+    if (txts[0] != undefined && txts[0].length > 0) {
+      textSize(((64 / width) * 15000) / txts[0].length);
+      text(txts[0], width / 2, height / 2);
+    }
+    txts.shift();
+  }
 }
 
-let txt = "";
+let txts = [];
 
 var v = new Vue({
   el: "#hello-world-app",
@@ -33,8 +38,9 @@ var v = new Vue({
       socket.emit("func", key);
     },
     sendMessage: function() {
-      txt = this.message;
-    },
+      txts.push(this.message);
+      socket.emit("message", this.message);
+    }
   },
   // mounted: function() {
   //   this.$watch(
@@ -91,9 +97,9 @@ var v = new Vue({
 
         useCamera1: () => {
           src(s0)
-           .scale(() => 1+v.sliders[0].val*0.1)
-           .scrollY(() => 1+v.sliders[1].val*0.1)
-           .scrollX(() => 1+v.sliders[2].val*0.1)
+            .scale(() => 1 + v.sliders[0].val * 0.1)
+            .scrollY(() => 1 + v.sliders[1].val * 0.1)
+            .scrollX(() => 1 + v.sliders[2].val * 0.1)
             .thresh()
             .diff(src(o0).scrollX(0.001))
             .out();
@@ -103,16 +109,16 @@ var v = new Vue({
 
         hueCamera: () => {
           src(o0)
-          .scale(() => 1+v.sliders[0].val*0.1)
-           .scrollY(() => 1+v.sliders[1].val*0.1)
-           .scrollX(() => 1+v.sliders[2].val*0.1)
+            .scale(() => 1 + v.sliders[0].val * 0.1)
+            .scrollY(() => 1 + v.sliders[1].val * 0.1)
+            .scrollX(() => 1 + v.sliders[2].val * 0.1)
             .modulateHue(src(o0).scale(1.01), 8)
             .layer(
               src(s0)
                 .luma(0.3)
                 .hue(() => time / 10)
             )
-          .saturate(() => 1+v.sliders[3].val*0.05)
+            .saturate(() => 1 + v.sliders[3].val * 0.05)
             .out();
           render(o0);
         },
@@ -129,7 +135,8 @@ var v = new Vue({
         boxOnTop: () => {
           src(o0)
             .layer(
-              osc(60, 0.1, 2).modulate(noise(10),() => v.sliders[0].val*0.001)
+              osc(60, 0.1, 2)
+                .modulate(noise(10), () => v.sliders[0].val * 0.001)
                 .mask(shape(4, 0.5, 0.01))
                 .luma()
             )
@@ -154,13 +161,13 @@ var v = new Vue({
             .out(o1);
           render(o1);
         },
-        canvasTest: () => {
+        messageCanvas: () => {
           src(o0).scale(1.01)
-            .modulate(o0, 0.01)
-            .layer(src(s1))
+            .modulateHue(o0, 1)
+            .layer(src(s1).mult(osc(6, 0.5, 2)))
             .out(o0);
           render(o0);
-        },
+        }
       }
     };
   }
@@ -176,6 +183,10 @@ socket.on("func", data => {
   if (v.funcs[data] != undefined) {
     v.funcs[data]();
   }
+});
+
+socket.on("message", data => {
+  txts.push(data);
 });
 
 function emitSliders() {
