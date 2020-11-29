@@ -7,6 +7,7 @@ var hydra = new Hydra({
 
 s0.initCam();
 
+
 var v = new Vue({
   el: "#hello-world-app",
   methods: {
@@ -133,7 +134,13 @@ var v = new Vue({
             )
             .out(o1);
           render(o1);
-        }
+        },
+        canvasTest: () => {
+          src(o0)
+            .layer(src(s1))
+            .out(o0);
+          render(o0);
+        },
       }
     };
   }
