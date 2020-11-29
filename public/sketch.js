@@ -9,17 +9,19 @@ s0.initCam();
 
 function setup() {
   p = createCanvas(windowWidth, windowHeight);
-  textSize(64)
-  textAlign(CENTER, CENTER);
-  fill("crimson");
-  text("glitch me on glitch me", width/2, height/2);
   s1.init({ src: p.elt });
   p.hide();
 }
 
 function draw() {
-  
+  textSize(64)
+  textAlign(CENTER, CENTER);
+  fill("crimson");
+  text(txt, width/2, height/2);
+  txt = "";
 }
+
+let txt = "";
 
 var v = new Vue({
   el: "#hello-world-app",
@@ -29,7 +31,10 @@ var v = new Vue({
       console.log(key); // i is index of v-for
       this.funcs[key]();
       socket.emit("func", key);
-    }
+    },
+    sendMessage: function() {
+      txt = this.message;
+    },
   },
   // mounted: function() {
   //   this.$watch(
@@ -48,6 +53,7 @@ var v = new Vue({
   // },
   data() {
     return {
+      messsage: "hi!",
       sliders: [{ val: 0 }, { val: 0 }, { val: 0 }, { val: 0 }],
       funcs: {
         oscillate: () => {
@@ -149,7 +155,7 @@ var v = new Vue({
           render(o1);
         },
         canvasTest: () => {
-          src(o0)
+          src(o0).scale(1.01)
             .modulate(o0, 0.01)
             .layer(src(s1))
             .out(o0);

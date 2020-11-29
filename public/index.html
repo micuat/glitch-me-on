@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
+    <!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/addons/p5.sound.min.js"></script> -->
     <script src="https://unpkg.com/hydra-synth"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
@@ -13,16 +13,24 @@
   <body>
     <h1>Glitchme on glitchme</h1>
     <div id="hello-world-app">
-			<div v-for="(func, key, index) in funcs">
-    <button v-on:click="emit($event, key)">{{ key }}</button>
-			</div>
-			<div v-for="(slider, key) in sliders">
-        <input type="range" name="key" 
-         min="0" max="128" v-model="slider.val" onchange="emitSliders()">
-			</div>
+      <div v-for="(func, key, index) in funcs">
+        <button v-on:click="emit($event, key)">{{ key }}</button>
+      </div>
+      <div v-for="(slider, key) in sliders">
+        <input
+          type="range"
+          name="key"
+          min="0"
+          max="128"
+          v-model="slider.val"
+          onchange="emitSliders()"
+        />
+      </div>
+      <input v-model="message">
+      <button v-on:click="sendMessage">Send</button>
     </div>
-    
-<!--     <button onclick="funcs.oscillate();emit('oscillate')">oscillator</button>
+
+    <!--     <button onclick="funcs.oscillate();emit('oscillate')">oscillator</button>
     <button onclick="funcs.kaleido();emit('kaleido')">kaleido</button>
     <button onclick="funcs.feedback();emit('feedback')">feedback</button>
     <button onclick="funcs.useCamera();emit('useCamera')">camera</button>
