@@ -7,6 +7,19 @@ var hydra = new Hydra({
 
 s0.initCam();
 
+function setup() {
+  p = createCanvas(windowWidth, windowHeight);
+  textSize(64)
+  textAlign(CENTER, CENTER);
+  fill("crimson");
+  text("glitch me on glitch me", width/2, height/2);
+  s1.init({ src: p.elt });
+  p.hide();
+}
+
+function draw() {
+  
+}
 
 var v = new Vue({
   el: "#hello-world-app",
@@ -137,6 +150,7 @@ var v = new Vue({
         },
         canvasTest: () => {
           src(o0)
+            .modulate(o0, 0.01)
             .layer(src(s1))
             .out(o0);
           render(o0);
