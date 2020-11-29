@@ -27,7 +27,7 @@
           onchange="emitSliders()"
         />
       </div>
-      <input v-model="message">
+      <input v-model="message" v-on:keyup="messageKeyup">
       <button v-on:click="sendMessage">Send</button>
     </div>
 

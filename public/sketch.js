@@ -40,7 +40,15 @@ var v = new Vue({
     sendMessage: function() {
       txts.push(this.message);
       socket.emit("message", this.message);
-    }
+      this.message = "";
+    },
+    messageKeyup: function(e) {
+      if (e.keyCode === 13) {
+        txts.push(this.message);
+        socket.emit("message", this.message);
+        this.message = "";
+      }
+    },
   },
   // mounted: function() {
   //   this.$watch(
@@ -59,7 +67,7 @@ var v = new Vue({
   // },
   data() {
     return {
-      messsage: "hi!",
+      message: "",
       sliders: [{ val: 0 }, { val: 0 }, { val: 0 }, { val: 0 }],
       funcs: {
         oscillate: () => {
