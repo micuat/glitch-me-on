@@ -21,7 +21,7 @@ function draw() {
   fill("white");
   if (txts.length > 0) {
     if (txts[0] != undefined && txts[0].length > 0) {
-      lastWritten = millis()
+      lastWritten = millis() * 0.001;
       textSize(((64 / width) * 15000) / txts[0].length);
       text(txts[0], width / 2, height / 2);
     }
@@ -276,17 +276,17 @@ var v = new Vue({
             // }
           ]
         },
-        messageCanvas: {
-          f: () => {
-            src(o0)
-              .scale(1.01)
-              .modulateHue(o0, [0,0,0,1.5].smooth())
-              .layer(src(s1).mult(osc(6, 0.5, 2)))
-              .out(o0);
-            render(o0);
-          },
-          params: []
-        }
+        // messageCanvas: {
+        //   f: () => {
+        //     src(o0)
+        //       .scale(1.003)
+        //       .modulateHue(o0, ()=>map(millis()*0.001-lastWritten,1,2,0,1,true))
+        //       .layer(src(s1).mult(osc(6, 0.5, 2)))
+        //       .out(o0);
+        //     render(o0);
+        //   },
+        //   params: []
+        // }
       }
     };
   }
