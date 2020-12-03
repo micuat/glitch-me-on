@@ -50,13 +50,16 @@ var v = new Vue({
       const s = this.sliders[3];
       return (s.val / 128) * (s.max - s.min) + s.min;
     },
+    selectCamera: function(ev, key) {
+      s0.initCam(key);
+    },
     applyFunc: function(key) {
       this.funcs[key].f();
       const n = this.funcs[key].params;
       for (let i = 0; i < this.sliders.length; i++) {
-        this.sliders[i].name = n[i] == undefined ? "not used" : n[i].name;
-        this.sliders[i].min = n[i] == undefined ? "not used" : n[i].min;
-        this.sliders[i].max = n[i] == undefined ? "not used" : n[i].max;
+        this.sliders[i].name = n[i] == undefined ? "unused" : n[i].name;
+        this.sliders[i].min = n[i] == undefined ? "0" : n[i].min;
+        this.sliders[i].max = n[i] == undefined ? "128" : n[i].max;
       }
       this.forceRerender();
       // this.curFunc = this.funcs[key];
@@ -99,6 +102,7 @@ var v = new Vue({
     return {
       componentKey: 0,
       message: "",
+      cameraIds: [0, 1, 2],
       sliders: [{ val: 0 }, { val: 0 }, { val: 0 }, { val: 0 }],
       funcs: {
         oscillate: {
@@ -256,11 +260,10 @@ var v = new Vue({
 
         boxOnTop: {
           f: () => {
-            let self = this;
             src(o0)
               .layer(
                 osc(60, 0.1, 2)
-                  .modulate(noise(10), ()=>this.v0())
+                  // .modulate(noise(10), this.v0)
                   .mask(shape(4, 0.5, 0.01))
                   .luma()
               )
@@ -268,11 +271,11 @@ var v = new Vue({
             render(o1);
           },
           params: [
-            {
-              name: "modulation",
-              min: 0,
-              max: 0.1
-            }
+            // {
+            //   name: "modulation",
+            //   min: 0,
+            //   max: 0.1
+            // }
           ]
         },
         messageCanvas: {

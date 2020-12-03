@@ -31,10 +31,40 @@ let txts = [];
 var v = new Vue({
   el: "#hello-world-app",
   methods: {
+    forceRerender() {
+      this.componentKey += 1;
+    },
+    v0: function() {
+      const s = this.sliders[0];
+      return (s.val / 128) * (s.max - s.min) + s.min;
+    },
+    v1: function() {
+      const s = this.sliders[1];
+      return (s.val / 128) * (s.max - s.min) + s.min;
+    },
+    v2: function() {
+      const s = this.sliders[2];
+      return (s.val / 128) * (s.max - s.min) + s.min;
+    },
+    v3: function() {
+      const s = this.sliders[3];
+      return (s.val / 128) * (s.max - s.min) + s.min;
+    },
+    applyFunc: function(key) {
+      this.funcs[key].f();
+      const n = this.funcs[key].params;
+      for (let i = 0; i < this.sliders.length; i++) {
+        this.sliders[i].name = n[i] == undefined ? "unused" : n[i].name;
+        this.sliders[i].min = n[i] == undefined ? "0" : n[i].min;
+        this.sliders[i].max = n[i] == undefined ? "128" : n[i].max;
+      }
+      this.forceRerender();
+      // this.curFunc = this.funcs[key];
+    },
     emit: function(ev, key) {
       console.log(ev); // this is the event
       console.log(key); // i is index of v-for
-      this.funcs[key]();
+      this.applyFunc(key);
       socket.emit("func", key);
     },
     sendMessage: function() {
@@ -48,7 +78,7 @@ var v = new Vue({
         socket.emit("message", this.message);
         this.message = "";
       }
-    },
+    }
   },
   // mounted: function() {
   //   this.$watch(
@@ -67,97 +97,193 @@ var v = new Vue({
   // },
   data() {
     return {
+      componentKey: 0,
       message: "",
       sliders: [{ val: 0 }, { val: 0 }, { val: 0 }, { val: 0 }],
       funcs: {
-        oscillate: () => {
-          osc(() => v.sliders[0].val)
-            .rotate(0, 0.1)
-            .modulate(osc())
-            .out();
+        oscillate: {
+          f: () => {
+            osc(this.v0, 0.1, this.v1)
+              .rotate(0, 0.1)
+              .modulate(osc())
+              .out();
+          },
+          params: [
+            {
+              name: "freq",
+              min: 0,
+              max: 120
+            },
+            {
+              name: "sync",
+              min: 0,
+              max: 3.14
+            }
+          ]
         },
 
-        kaleido: () =>
-          osc(10, 0.1, 0.8)
-            .rotate(0, 0.1)
-            .kaleid()
-            //.color(-1, 1)
-            .hue(() => v.sliders[0].val)
-            .out(),
+        kaleido: {
+          f: () =>
+            osc(10, 0.1, 0.8)
+              .rotate(0, 0.1)
+              .kaleid()
+              //.color(-1, 1)
+              .hue(this.v0)
+              .out(),
+          params: [
+            {
+              name: "hue",
+              min: 0,
+              max: 1
+            }
+          ]
+        },
         // create functions to use with buttons
-        ohNoise: () => {
-          src(s0)
-            .color(-1, Math.random() * 2, 1)
-            .colorama()
-            .out();
-          render(o0);
+        ohNoise: {
+          f: () => {
+            src(s0)
+              .color(-1, Math.random() * 2, 1)
+              .colorama()
+              .out();
+            render(o0);
+          },
+          params: [
+            // {
+            //   name: "sync",
+            //   min: 0,
+            //   max: 3.14
+            // }
+          ]
         },
 
-        feedback: () => {
-          src(o1)
-            .layer(src(o0).mask(shape(4, [0.4, 0, 1].fast(0.3), 0)))
-            .scrollX([0.005, -0.005])
-            .scrollY(0.005)
-            .out(o1);
+        feedback: {
+          f: () => {
+            src(o1)
+              .layer(src(o0).mask(shape(4, [0.4, 0, 1].fast(0.3), 0)))
+              .scrollX([0.005, -0.005])
+              .scrollY(0.005)
+              .out(o1);
 
-          render(o1);
+            render(o1);
+          },
+          params: [
+            // {
+            //   name: "sync",
+            //   min: 0,
+            //   max: 3.14
+            // }
+          ]
         },
 
-        useCamera1: () => {
-          src(s0)
-            .scale(() => 1 + v.sliders[0].val * 0.1)
-            .scrollY(() => 1 + v.sliders[1].val * 0.1)
-            .scrollX(() => 1 + v.sliders[2].val * 0.1)
-            .thresh()
-            .diff(src(o0).scrollX(0.001))
-            .out();
+        useCamera1: {
+          f: () => {
+            src(s0)
+              .scale(this.v0)
+              .scroll(this.v1, this.v2)
+              .thresh()
+              .diff(src(o0).scrollX(0.001))
+              .out();
 
-          render(o0);
+            render(o0);
+          },
+          params: [
+            {
+              name: "scale",
+              min: 1,
+              max: 3
+            },
+            {
+              name: "x",
+              min: 0,
+              max: 1
+            },
+            {
+              name: "y",
+              min: 0,
+              max: 1
+            }
+          ]
         },
-
-        hueCamera: () => {
-          src(o0)
-            .scale(() => 1 + v.sliders[0].val * 0.1)
-            .scrollY(() => 1 + v.sliders[1].val * 0.1)
-            .scrollX(() => 1 + v.sliders[2].val * 0.1)
-            .modulateHue(src(o0).scale(1.01), 8)
-            .layer(
-              src(s0)
-                .luma(0.3)
-                .hue(() => time / 10)
-            )
-            .saturate(() => 1 + v.sliders[3].val * 0.05)
-            .out();
-          render(o0);
+        hueCamera: {
+          f: () => {
+            src(o0)
+              .scale(this.v0)
+              .scroll(this.v1, this.v2)
+              .modulateHue(src(o0).scale(1.01), 8)
+              .layer(
+                src(s0)
+                  .luma(0.3)
+                  .hue(() => time / 10)
+              )
+              .saturate(this.v3)
+              .out();
+            render(o0);
+          },
+          params: [
+            {
+              name: "scale",
+              min: 1,
+              max: 3
+            },
+            {
+              name: "x",
+              min: 0,
+              max: 1
+            },
+            {
+              name: "y",
+              min: 0,
+              max: 1
+            },
+            {
+              name: "saturate",
+              min: 1,
+              max: 2
+            }
+          ]
         },
-
         //here
-        fbkCam: () => {
-          src(o0)
-            .saturate(1.05)
-            .layer(src(s0).luma())
-            .out();
-          render(o0);
+        fbkCam: {
+          f: () => {
+            src(o0)
+              .saturate(1.05)
+              .layer(src(s0).luma())
+              .out();
+            render(o0);
+          },
+          params: []
         },
 
-        boxOnTop: () => {
-          src(o0)
-            .layer(
-              osc(60, 0.1, 2)
-                .modulate(noise(10), () => v.sliders[0].val * 0.001)
-                .mask(shape(4, 0.5, 0.01))
-                .luma()
-            )
-            .out(o1);
-          render(o1);
+        boxOnTop: {
+          f: () => {
+            src(o0)
+              .layer(
+                osc(60, 0.1, 2)
+                  // .modulate(noise(10), this.v0)
+                  .mask(shape(4, 0.5, 0.01))
+                  .luma()
+              )
+              .out(o1);
+            render(o1);
+          },
+          params: [
+            // {
+            //   name: "modulation",
+            //   min: 0,
+            //   max: 0.1
+            // }
+          ]
         },
-
-        messageCanvas: () => {
-          src(o0).scale(1.01)
-            .modulateHue(o0, 1)
-            .layer(src(s1).mult(osc(6, 0.5, 2)))
-            .out(o0);
-          render(o0);
+        messageCanvas: {
+          f: () => {
+            src(o0)
+              .scale(1.01)
+              .modulateHue(o0, 1)
+              .layer(src(s1).mult(osc(6, 0.5, 2)))
+              .out(o0);
+            render(o0);
+          },
+          params: []
         }
       }
     };
@@ -172,7 +298,7 @@ socket.on("hello", data => {
 
 socket.on("func", data => {
   if (v.funcs[data] != undefined) {
-    v.funcs[data]();
+    v.applyFunc(data);
   }
 });
 

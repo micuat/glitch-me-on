@@ -31,3 +31,7 @@ button {
   position: fixed;
   background-size: cover;
 }
+
+#cameras button {
+  float: left;
+}

@@ -16,18 +16,26 @@
         <button v-on:click="emit($event, key)">{{ key }}</button>
       </div>
       <div v-for="(slider, key) in sliders">
-        <label>{{ slider.name }}</label>
-        <input
-          type="range"
-          name="key"
-          min="0"
-          max="128"
-          v-model="slider.val"
-          onchange="emitSliders()"
-        />
+        <div v-if="slider.name!='unused'">
+          <label>{{ slider.name }}</label>
+          <input
+            type="range"
+            name="key"
+            min="0"
+            max="128"
+            v-model="slider.val"
+            onchange="emitSliders()"
+          />
+        </div>
       </div>
       <input v-model="message" v-on:keyup="messageKeyup" />
       <button v-on:click="sendMessage">Send</button>
+      <div>
+        cameras:
+        <div id="cameras" v-for="(placeholder, key) in cameraIds">
+          <button v-on:click="selectCamera($event, key)">{{ key }}</button>
+        </div>
+      </div>
     </div>
     <canvas id="myCanvas" width="400px" height="400px"></canvas>
 
