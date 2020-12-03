@@ -254,25 +254,38 @@ var v = new Vue({
           params: []
         },
 
-                boxOnTop: () => {
-                  src(o0)
-                    .layer(
-                      osc(60, 0.1, 2)
-                        .modulate(noise(10), () => v.sliders[0].val * 0.001)
-                        .mask(shape(4, 0.5, 0.01))
-                        .luma()
-                    )
-                    .out(o1);
-                  render(o1);
-                },
-
-        //         messageCanvas: () => {
-        //           src(o0).scale(1.01)
-        //             .modulateHue(o0, 1)
-        //             .layer(src(s1).mult(osc(6, 0.5, 2)))
-        //             .out(o0);
-        //           render(o0);
-        //         }
+        boxOnTop: {
+          f: () => {
+            let self = this;
+            src(o0)
+              .layer(
+                osc(60, 0.1, 2)
+                  .modulate(noise(10), ()=>this.v0())
+                  .mask(shape(4, 0.5, 0.01))
+                  .luma()
+              )
+              .out(o1);
+            render(o1);
+          },
+          params: [
+            {
+              name: "modulation",
+              min: 0,
+              max: 0.1
+            }
+          ]
+        },
+        messageCanvas: {
+          f: () => {
+            src(o0)
+              .scale(1.01)
+              .modulateHue(o0, 1)
+              .layer(src(s1).mult(osc(6, 0.5, 2)))
+              .out(o0);
+            render(o0);
+          },
+          params: []
+        }
       }
     };
   }
