@@ -7,6 +7,8 @@ var hydra = new Hydra({
 
 s0.initCam();
 
+let lastWritten = 0;
+
 function setup() {
   p = createCanvas(windowWidth, windowHeight);
   s1.init({ src: p.elt });
@@ -19,6 +21,7 @@ function draw() {
   fill("white");
   if (txts.length > 0) {
     if (txts[0] != undefined && txts[0].length > 0) {
+      lastWritten = millis()
       textSize(((64 / width) * 15000) / txts[0].length);
       text(txts[0], width / 2, height / 2);
     }
@@ -181,7 +184,7 @@ var v = new Vue({
 
         useCamera1: {
           f: () => {
-   src(o0).scale(1.005).modulate(o0,0.001).rotate(-0.0015).layer(src(s0).thresh().luma().invert()).out()
+       src(o0).scale(this.v0).modulate(o0,0.001).rotate(this.v1).layer(src(s0).thresh(()=>Math.sin(time/3)*0.1+0.5).luma().invert()).out()
 
             render(o0);
           },
@@ -189,18 +192,18 @@ var v = new Vue({
             {
               name: "scale",
               min: 1,
-              max: 3
+              max: 1.01
             },
             {
-              name: "x",
-              min: 0,
-              max: 1
+              name: "rotate",
+              min: -0.005,
+              max: 0.005
             },
-            {
-              name: "y",
-              min: 0,
-              max: 1
-            }
+            // {
+            //   name: "y",
+            //   min: 0,
+            //   max: 1
+            // }
           ]
         },
         hueCamera: {
@@ -277,7 +280,7 @@ var v = new Vue({
           f: () => {
             src(o0)
               .scale(1.01)
-              .modulateHue(o0, 1)
+              .modulateHue(o0, [0,0,0,1.5].smooth())
               .layer(src(s1).mult(osc(6, 0.5, 2)))
               .out(o0);
             render(o0);
