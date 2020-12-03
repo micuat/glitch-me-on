@@ -85,7 +85,7 @@ var v = new Vue({
             .hue(() => v.sliders[0].val)
             .out(),
         // create functions to use with buttons
-        useCamera: () => {
+        ohNoise: () => {
           src(s0)
             .color(-1, Math.random() * 2, 1)
             .colorama()
