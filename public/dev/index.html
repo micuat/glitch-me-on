@@ -11,22 +11,23 @@
   </head>
   <body>
     <h1>Glitchme on glitchme</h1>
-    <div id="hello-world-app">
+    <div id="hello-world-app" :key="componentKey">
       <div v-for="(func, key, index) in funcs">
         <button v-on:click="emit($event, key)">{{ key }}</button>
       </div>
       <div v-for="(slider, key) in sliders">
-        {{ sliderNames[key] }}
+        {{ slider.name }}
         <input
           type="range"
           name="key"
-          min="0"
-          max="128"
+          min="slider.min"
+          v-bind:max="slider.max"
+          step="0.01"
           v-model="slider.val"
           onchange="emitSliders()"
         />
       </div>
-      <input v-model="message" v-on:keyup="messageKeyup">
+      <input v-model="message" v-on:keyup="messageKeyup" />
       <button v-on:click="sendMessage">Send</button>
     </div>
     <canvas id="myCanvas" width="400px" height="400px"></canvas>

@@ -31,12 +31,16 @@ let txts = [];
 var v = new Vue({
   el: "#hello-world-app",
   methods: {
+    forceRerender() {
+      this.componentKey += 1;
+    },
     applyFunc: function(key) {
       this.funcs[key].f();
       const n = this.funcs[key].params;
       for (let i = 0; i < this.sliders.length; i++) {
-        this.sliderNames[i] = n[i] == undefined ? "not used" : n[i].name;
+        this.sliders[i].name = n[i] == undefined ? "not used" : n[i].name;
       }
+      this.forceRerender();
       // this.curFunc = this.funcs[key];
     },
     emit: function(ev, key) {
@@ -75,23 +79,27 @@ var v = new Vue({
   // },
   data() {
     return {
-      sliderNames: ["nan", "nan", "nan", "nan"],
+      componentKey: 0,
       message: "",
       sliders: [{ val: 0 }, { val: 0 }, { val: 0 }, { val: 0 }],
       funcs: {
         oscillate: {
           f: () => {
-            osc(() => v.sliders[0].val, 0.1, () => v.sliders[1].val / 64)
+            osc(() => v.sliders[0].val, 0.1, () => v.sliders[1].val)
               .rotate(0, 0.1)
               .modulate(osc())
               .out();
           },
           params: [
             {
-              name: "freq"
+              name: "freq",
+              min: 0,
+              max: 120
             },
             {
-              name: "sync"
+              name: "sync",
+              min: 0,
+              max: 3.14
             }
           ]
         },
@@ -106,8 +114,10 @@ var v = new Vue({
               .out(),
           params: [
             {
-              name: "hue"
-            },
+              name: "hue",
+              min: 0,
+              max: 1
+            }
           ]
         }
         //         // create functions to use with buttons
