@@ -16,13 +16,12 @@
         <button v-on:click="emit($event, key)">{{ key }}</button>
       </div>
       <div v-for="(slider, key) in sliders">
-        {{ slider.name }}
+        <label>{{ slider.name }}</label>
         <input
           type="range"
           name="key"
-          min="slider.min"
-          v-bind:max="slider.max"
-          step="0.01"
+          min="0"
+          max="128"
           v-model="slider.val"
           onchange="emitSliders()"
         />

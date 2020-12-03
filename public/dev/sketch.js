@@ -34,11 +34,29 @@ var v = new Vue({
     forceRerender() {
       this.componentKey += 1;
     },
+    v0: function() {
+      const s = this.sliders[0];
+      return (s.val / 128) * (s.max - s.min) + s.min;
+    },
+    v1: function() {
+      const s = this.sliders[1];
+      return (s.val / 128) * (s.max - s.min) + s.min;
+    },
+    v2: function() {
+      const s = this.sliders[2];
+      return (s.val / 128) * (s.max - s.min) + s.min;
+    },
+    v3: function() {
+      const s = this.sliders[3];
+      return (s.val / 128) * (s.max - s.min) + s.min;
+    },
     applyFunc: function(key) {
       this.funcs[key].f();
       const n = this.funcs[key].params;
       for (let i = 0; i < this.sliders.length; i++) {
         this.sliders[i].name = n[i] == undefined ? "not used" : n[i].name;
+        this.sliders[i].min = n[i] == undefined ? "not used" : n[i].min;
+        this.sliders[i].max = n[i] == undefined ? "not used" : n[i].max;
       }
       this.forceRerender();
       // this.curFunc = this.funcs[key];
@@ -85,7 +103,7 @@ var v = new Vue({
       funcs: {
         oscillate: {
           f: () => {
-            osc(() => v.sliders[0].val, 0.1, () => v.sliders[1].val)
+            osc(this.v0, 0.1, this.v1)
               .rotate(0, 0.1)
               .modulate(osc())
               .out();
@@ -110,7 +128,7 @@ var v = new Vue({
               .rotate(0, 0.1)
               .kaleid()
               //.color(-1, 1)
-              .hue(() => v.sliders[0].val)
+              .hue(this.v0)
               .out(),
           params: [
             {
@@ -119,74 +137,134 @@ var v = new Vue({
               max: 1
             }
           ]
-        }
-        //         // create functions to use with buttons
-        //         ohNoise: () => {
-        //           src(s0)
-        //             .color(-1, Math.random() * 2, 1)
-        //             .colorama()
-        //             .out();
-        //           render(o0);
-        //         },
+        },
+        // create functions to use with buttons
+        ohNoise: {
+          f: () => {
+            src(s0)
+              .color(-1, Math.random() * 2, 1)
+              .colorama()
+              .out();
+            render(o0);
+          },
+          params: [
+            // {
+            //   name: "sync",
+            //   min: 0,
+            //   max: 3.14
+            // }
+          ]
+        },
 
-        //         feedback: () => {
-        //           src(o1)
-        //             .layer(src(o0).mask(shape(4, [0.4, 0, 1].fast(0.3), 0)))
-        //             .scrollX([0.005, -0.005])
-        //             .scrollY(0.005)
-        //             .out(o1);
+        feedback: {
+          f: () => {
+            src(o1)
+              .layer(src(o0).mask(shape(4, [0.4, 0, 1].fast(0.3), 0)))
+              .scrollX([0.005, -0.005])
+              .scrollY(0.005)
+              .out(o1);
 
-        //           render(o1);
-        //         },
+            render(o1);
+          },
+          params: [
+            // {
+            //   name: "sync",
+            //   min: 0,
+            //   max: 3.14
+            // }
+          ]
+        },
 
-        //         useCamera1: () => {
-        //           src(s0)
-        //             .scale(() => 1 + v.sliders[0].val * 0.1)
-        //             .scrollY(() => 1 + v.sliders[1].val * 0.1)
-        //             .scrollX(() => 1 + v.sliders[2].val * 0.1)
-        //             .thresh()
-        //             .diff(src(o0).scrollX(0.001))
-        //             .out();
+        useCamera1: {
+          f: () => {
+            src(s0)
+              .scale(this.v0)
+              .scroll(this.v1, this.v2)
+              .thresh()
+              .diff(src(o0).scrollX(0.001))
+              .out();
 
-        //           render(o0);
-        //         },
+            render(o0);
+          },
+          params: [
+            {
+              name: "scale",
+              min: 1,
+              max: 3
+            },
+            {
+              name: "x",
+              min: 0,
+              max: 1
+            },
+            {
+              name: "y",
+              min: 0,
+              max: 1
+            }
+          ]
+        },
+        hueCamera: {
+          f: () => {
+            src(o0)
+              .scale(this.v0)
+              .scroll(this.v1, this.v2)
+              .modulateHue(src(o0).scale(1.01), 8)
+              .layer(
+                src(s0)
+                  .luma(0.3)
+                  .hue(() => time / 10)
+              )
+              .saturate(this.v3)
+              .out();
+            render(o0);
+          },
+          params: [
+            {
+              name: "scale",
+              min: 1,
+              max: 3
+            },
+            {
+              name: "x",
+              min: 0,
+              max: 1
+            },
+            {
+              name: "y",
+              min: 0,
+              max: 1
+            },
+            {
+              name: "saturate",
+              min: 1,
+              max: 2
+            }
+          ]
+        },
+        //here
+        fbkCam: {
+          f: () => {
+            src(o0)
+              .saturate(1.05)
+              .layer(src(s0).luma())
+              .out();
+            render(o0);
+          },
+          params: []
+        },
 
-        //         hueCamera: () => {
-        //           src(o0)
-        //             .scale(() => 1 + v.sliders[0].val * 0.1)
-        //             .scrollY(() => 1 + v.sliders[1].val * 0.1)
-        //             .scrollX(() => 1 + v.sliders[2].val * 0.1)
-        //             .modulateHue(src(o0).scale(1.01), 8)
-        //             .layer(
-        //               src(s0)
-        //                 .luma(0.3)
-        //                 .hue(() => time / 10)
-        //             )
-        //             .saturate(() => 1 + v.sliders[3].val * 0.05)
-        //             .out();
-        //           render(o0);
-        //         },
-
-        //         //here
-        //         fbkCam: () => {
-        //           src(o0)
-        //             .saturate(1.05)
-        //             .layer(src(s0).luma())
-        //             .out();
-        //           render(o0);
-        //         },
-
-        //         boxOnTop: () => {
-        //           src(o0)
-        //             .layer(
-        //               osc(60, 0.1, 2)
-        //                 .modulate(noise(10), () => v.sliders[0].val * 0.001)
-        //                 .mask(shape(4, 0.5, 0.01))
-        //                 .luma()
-        //             )
-        //             .out(o1);
-        //           render(o1);
-        //         },
+                boxOnTop: () => {
+                  src(o0)
+                    .layer(
+                      osc(60, 0.1, 2)
+                        .modulate(noise(10), () => v.sliders[0].val * 0.001)
+                        .mask(shape(4, 0.5, 0.01))
+                        .luma()
+                    )
+                    .out(o1);
+                  render(o1);
+                },
 
         //         messageCanvas: () => {
         //           src(o0).scale(1.01)
