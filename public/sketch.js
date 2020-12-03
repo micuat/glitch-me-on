@@ -50,6 +50,9 @@ var v = new Vue({
       const s = this.sliders[3];
       return (s.val / 128) * (s.max - s.min) + s.min;
     },
+    selectCamera: function(ev, key) {
+      s0.initCam(key);
+    },
     applyFunc: function(key) {
       this.funcs[key].f();
       const n = this.funcs[key].params;
@@ -99,6 +102,7 @@ var v = new Vue({
     return {
       componentKey: 0,
       message: "",
+      cameraIds: [0, 1, 2],
       sliders: [{ val: 0 }, { val: 0 }, { val: 0 }, { val: 0 }],
       funcs: {
         oscillate: {

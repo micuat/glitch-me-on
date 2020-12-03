@@ -30,6 +30,12 @@
       </div>
       <input v-model="message" v-on:keyup="messageKeyup" />
       <button v-on:click="sendMessage">Send</button>
+      <div>
+        cameras:
+        <div id="cameras" v-for="(placeholder, key) in cameraIds">
+          <button v-on:click="selectCamera($event, key)">{{ key }}</button>
+        </div>
+      </div>
     </div>
     <canvas id="myCanvas" width="400px" height="400px"></canvas>
 
