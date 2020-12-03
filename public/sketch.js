@@ -181,12 +181,7 @@ var v = new Vue({
 
         useCamera1: {
           f: () => {
-            src(s0)
-              .scale(this.v0)
-              .scroll(this.v1, this.v2)
-              .thresh()
-              .diff(src(o0).scrollX(0.001))
-              .out();
+   src(o0).scale(1.005).modulate(o0,0.001).rotate(-0.0015).layer(src(s0).thresh().luma().invert()).out()
 
             render(o0);
           },
