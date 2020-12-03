@@ -151,24 +151,7 @@ var v = new Vue({
             .out(o1);
           render(o1);
         },
-        head: () => {
-          src(o0)
-            .layer(
-              gradient()
-                .repeat(10, 10)
-                .colorama(0.5)
-                .modulate(osc(3).rotate(0.5))
-                .modulateScale(osc(2).rotate(0.5), -0.5)
-                .mask(
-                  shape(200, 0.2, 0.1)
-                    .scale(1.7, 0.4)
-                    .scrollY(0.08)
-                )
-                .luma(0.01)
-            )
-            .out(o1);
-          render(o1);
-        },
+
         messageCanvas: () => {
           src(o0).scale(1.01)
             .modulateHue(o0, 1)
