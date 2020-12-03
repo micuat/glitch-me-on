@@ -5,7 +5,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="/style.css" />
     <meta charset="utf-8" />
     <title>glitch me on glitch me</title>
   </head>
@@ -16,6 +16,7 @@
         <button v-on:click="emit($event, key)">{{ key }}</button>
       </div>
       <div v-for="(slider, key) in sliders">
+        {{ sliderNames[key] }}
         <input
           type="range"
           name="key"
@@ -30,6 +31,6 @@
     </div>
     <canvas id="myCanvas" width="400px" height="400px"></canvas>
 
-    <script src="sketch2.js"></script>
+    <script src="sketch.js"></script>
   </body>
 </html>

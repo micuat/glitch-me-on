@@ -31,10 +31,18 @@ let txts = [];
 var v = new Vue({
   el: "#hello-world-app",
   methods: {
+    applyFunc: function(key) {
+      this.funcs[key].f();
+      const n = this.funcs[key].params;
+      for (let i = 0; i < this.sliders.length; i++) {
+        this.sliderNames[i] = n[i] == undefined ? "not used" : n[i].name;
+      }
+      // this.curFunc = this.funcs[key];
+    },
     emit: function(ev, key) {
       console.log(ev); // this is the event
       console.log(key); // i is index of v-for
-      this.funcs[key].f();
+      this.applyFunc(key);
       socket.emit("func", key);
     },
     sendMessage: function() {
@@ -67,33 +75,41 @@ var v = new Vue({
   // },
   data() {
     return {
+      sliderNames: ["nan", "nan", "nan", "nan"],
       message: "",
       sliders: [{ val: 0 }, { val: 0 }, { val: 0 }, { val: 0 }],
       funcs: {
         oscillate: {
           f: () => {
-            osc(() => v.sliders[0].val)
+            osc(() => v.sliders[0].val, 0.1, () => v.sliders[1].val / 64)
               .rotate(0, 0.1)
               .modulate(osc())
               .out();
           },
-          [
-          {
-            name: "freq"
-          },
-          {
-            name: "sync"
-          }
+          params: [
+            {
+              name: "freq"
+            },
+            {
+              name: "sync"
+            }
+          ]
+        },
+
+        kaleido: {
+          f: () =>
+            osc(10, 0.1, 0.8)
+              .rotate(0, 0.1)
+              .kaleid()
+              //.color(-1, 1)
+              .hue(() => v.sliders[0].val)
+              .out(),
+          params: [
+            {
+              name: "hue"
+            },
           ]
         }
-
-        //         kaleido: () =>
-        //           osc(10, 0.1, 0.8)
-        //             .rotate(0, 0.1)
-        //             .kaleid()
-        //             //.color(-1, 1)
-        //             .hue(() => v.sliders[0].val)
-        //             .out(),
         //         // create functions to use with buttons
         //         ohNoise: () => {
         //           src(s0)
@@ -182,7 +198,7 @@ socket.on("hello", data => {
 
 socket.on("func", data => {
   if (v.funcs[data] != undefined) {
-    v.funcs[data].f();
+    v.applyFunc(data);
   }
 });
 
