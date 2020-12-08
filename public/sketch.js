@@ -1,14 +1,19 @@
 const socket = io();
 
-var hydraCanvas = document.createElement("canvas");
-document.getElementById("hello-world-app").appendChild(hydraCanvas);
-// create a new hydra-synth instance
-var hydra = new Hydra({
-  canvas: hydraCanvas//document.getElementById("myCanvas")
-});
+// var hydraCanvas = document.createElement("canvas");
+// document.body.appendChild(hydraCanvas);
+// hydraCanvas.id="myCanvas";
+// // create a new hydra-synth instance
+// var hydra = new Hydra({
+//   canvas: hydraCanvas//document.getElementById("myCanvas")
+// });
 
-hydra.width = hydraCanvas.width = window.innerWidth;
-hydra.height = hydraCanvas.height = window.innerHeight;
+// hydra.width = hydraCanvas.width = window.innerWidth;
+// hydra.height = hydraCanvas.height = window.innerHeight;
+
+var hydra = new Hydra({
+  canvas: document.getElementById("myCanvas")
+});
 
 s0.initCam();
 
