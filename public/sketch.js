@@ -185,7 +185,7 @@ src(s0).saturate(2).contrast(1.3).layer(src(o0).mask(shape(4,2,1e-6).scale(0.5,0
             // }
           ]
         },
-        feedback: {
+        zigzag: {
           f: () => {
             src(o1)
               .layer(src(o0).mask(shape(4, [0.4, 0, 1].fast(0.3), 0)))
@@ -204,7 +204,7 @@ src(s0).saturate(2).contrast(1.3).layer(src(o0).mask(shape(4,2,1e-6).scale(0.5,0
           ]
         },
 
-        useCamera1: {
+        blackhole: {
           f: () => {
        src(o0).scale(this.v0).modulate(o0,0.001).rotate(this.v1).layer(src(s0).thresh(()=>Math.sin(time/3)*0.1+0.5).luma().invert()).out()
 
@@ -267,7 +267,7 @@ src(s0).saturate(2).contrast(1.3).layer(src(o0).mask(shape(4,2,1e-6).scale(0.5,0
           ]
         },
         //here
-        fbkCam: {
+        blazer: {
           f: () => {
             src(o0)
               .saturate(1.05)
@@ -278,26 +278,26 @@ src(s0).saturate(2).contrast(1.3).layer(src(o0).mask(shape(4,2,1e-6).scale(0.5,0
           params: []
         },
 
-        boxOnTop: {
-          f: () => {
-            src(o0)
-              .layer(
-                osc(60, 0.1, 2)
-                  // .modulate(noise(10), this.v0)
-                  .mask(shape(4, 0.5, 0.01))
-                  .luma()
-              )
-              .out(o1);
-            render(o1);
-          },
-          params: [
-            // {
-            //   name: "modulation",
-            //   min: 0,
-            //   max: 0.1
-            // }
-          ]
-        },
+        // boxOnTop: {
+        //   f: () => {
+        //     src(o0)
+        //       .layer(
+        //         osc(60, 0.1, 2)
+        //           // .modulate(noise(10), this.v0)
+        //           .mask(shape(4, 0.5, 0.01))
+        //           .luma()
+        //       )
+        //       .out(o1);
+        //     render(o1);
+        //   },
+        //   params: [
+        //     // {
+        //     //   name: "modulation",
+        //     //   min: 0,
+        //     //   max: 0.1
+        //     // }
+        //   ]
+        // },
         // messageCanvas: {
         //   f: () => {
         //     src(o0)
