@@ -1,9 +1,14 @@
 const socket = io();
 
+var hydraCanvas = document.createElement("canvas");
+document.getElementById("hello-world-app").appendChild(hydraCanvas);
 // create a new hydra-synth instance
 var hydra = new Hydra({
-  canvas: document.getElementById("myCanvas")
+  canvas: hydraCanvas//document.getElementById("myCanvas")
 });
+
+hydra.width = hydraCanvas.width = window.innerWidth;
+hydra.height = hydraCanvas.height = window.innerHeight;
 
 s0.initCam();
 
@@ -162,7 +167,19 @@ var v = new Vue({
             // }
           ]
         },
-
+        glitchyScan: {
+          f: () => {
+src(s0).saturate(2).contrast(1.3).layer(src(o0).mask(shape(4,2,1e-6).scale(0.5,0.7).scrollX(0.25)).scrollX(0.002)).modulate(o0,0.002).out(o0)
+            render(o0);
+          },
+          params: [
+            // {
+            //   name: "sync",
+            //   min: 0,
+            //   max: 3.14
+            // }
+          ]
+        },
         feedback: {
           f: () => {
             src(o1)
