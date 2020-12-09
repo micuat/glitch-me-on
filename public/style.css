@@ -38,4 +38,5 @@ button {
 
 #hello-world-app {
   padding: 50px;
+  z-index: 3;
 }

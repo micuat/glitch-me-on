@@ -22,31 +22,40 @@ let lastWritten = 0;
 function setup() {
   p = createCanvas(windowWidth, windowHeight);
   p.id("p5Canvas");
-  p.elt.style.zIndex = 10;
+  // p.elt.style.zIndex = 10;
   s1.init({ src: p.elt });
   // p.hide();
+
+  var url_string = window.location.href;
+  var url = new URL(url_string);
+  if (url.searchParams.get("corners")) {
+    const points = url.searchParams.get("corners").split(",");
+    for (let i = 0; i < 4; i++) {
+      cornerPoints.push([points[i * 2], points[i * 2 + 1]]);
+    }
+  }
 }
 
-const cornerPoints = [];//[[.05,.03], [.95,.05],[.95,.95],[.05,.95]];
+const cornerPoints = []; //[[.05,.03], [.95,.05],[.95,.95],[.05,.95]];
 
 function draw() {
   clear();
   stroke(0);
   fill(0);
-  
-  if(cornerPoints.length > 0) {
-    const windowPoints = [[0,0], [1,0],[1,1],[0,1]];
+
+  if (cornerPoints.length > 0) {
+    const windowPoints = [[0, 0], [1, 0], [1, 1], [0, 1]];
     beginShape(TRIANGLE_STRIP);
-    cornerPoints.forEach((el,i)=>{
+    cornerPoints.forEach((el, i) => {
       const wp = windowPoints[i];
-      vertex(el[0]*width,el[1]*height)
-      vertex(wp[0]*width,wp[1]*height)
-    })
+      vertex(el[0] * width, el[1] * height);
+      vertex(wp[0] * width, wp[1] * height);
+    });
     {
       const wp = windowPoints[0];
       const el = cornerPoints[0];
-      vertex(el[0]*width,el[1]*height)
-      vertex(wp[0]*width,wp[1]*height)
+      vertex(el[0] * width, el[1] * height);
+      vertex(wp[0] * width, wp[1] * height);
     }
     endShape(CLOSE);
   }
@@ -202,7 +211,20 @@ var v = new Vue({
         },
         glitchyScan: {
           f: () => {
-src(s0).saturate(2).contrast(1.3).layer(src(o0).mask(shape(4,2,1e-6).scale(0.5,0.7).scrollX(0.25)).scrollX(0.002)).modulate(o0,0.002).out(o0)
+            src(s0)
+              .saturate(2)
+              .contrast(1.3)
+              .layer(
+                src(o0)
+                  .mask(
+                    shape(4, 2, 1e-6)
+                      .scale(0.5, 0.7)
+                      .scrollX(0.25)
+                  )
+                  .scrollX(0.002)
+              )
+              .modulate(o0, 0.002)
+              .out(o0);
             render(o0);
           },
           params: [
@@ -234,7 +256,17 @@ src(s0).saturate(2).contrast(1.3).layer(src(o0).mask(shape(4,2,1e-6).scale(0.5,0
 
         blackhole: {
           f: () => {
-       src(o0).scale(this.v0).modulate(o0,0.001).rotate(this.v1).layer(src(s0).thresh(()=>Math.sin(time/3)*0.1+0.5).luma().invert()).out()
+            src(o0)
+              .scale(this.v0)
+              .modulate(o0, 0.001)
+              .rotate(this.v1)
+              .layer(
+                src(s0)
+                  .thresh(() => Math.sin(time / 3) * 0.1 + 0.5)
+                  .luma()
+                  .invert()
+              )
+              .out();
 
             render(o0);
           },
@@ -248,7 +280,7 @@ src(s0).saturate(2).contrast(1.3).layer(src(o0).mask(shape(4,2,1e-6).scale(0.5,0
               name: "rotate",
               min: -0.005,
               max: 0.005
-            },
+            }
             // {
             //   name: "y",
             //   min: 0,
@@ -304,7 +336,7 @@ src(s0).saturate(2).contrast(1.3).layer(src(o0).mask(shape(4,2,1e-6).scale(0.5,0
             render(o0);
           },
           params: []
-        },
+        }
 
         // boxOnTop: {
         //   f: () => {
