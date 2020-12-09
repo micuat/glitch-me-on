@@ -22,15 +22,33 @@ let lastWritten = 0;
 function setup() {
   p = createCanvas(windowWidth, windowHeight);
   p.id("p5Canvas");
+  p.elt.style.zIndex = 10;
   s1.init({ src: p.elt });
   // p.hide();
 }
+
+const cornerPoints = [[.05,.03], [.95,.05],[.95,.95],[.05,.95]];
 
 function draw() {
   clear();
   noStroke();
   fill(0);
-  rect(0,0,0.1*width,0.1*height)
+  
+  const windowPoints = [[0,0], [1,0],[1,1],[0,1]];
+  beginShape(TRIANGLE_STRIP);
+  cornerPoints.forEach((el,i)=>{
+    const wp = windowPoints[i];
+    vertex(el[0]*width,el[1]*height)
+    vertex(wp[0]*width,wp[1]*height)
+  })
+  {
+    const wp = windowPoints[0];
+    const el = cornerPoints[0];
+    vertex(el[0]*width,el[1]*height)
+    vertex(wp[0]*width,wp[1]*height)
+  }
+  endShape(CLOSE);
+
   // textAlign(CENTER, CENTER);
   // fill("white");
   // if (txts.length > 0) {
