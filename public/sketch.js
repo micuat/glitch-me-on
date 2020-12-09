@@ -21,22 +21,30 @@ let lastWritten = 0;
 
 function setup() {
   p = createCanvas(windowWidth, windowHeight);
+  p.id("p5Canvas");
   s1.init({ src: p.elt });
-  p.hide();
+  // p.hide();
 }
 
 function draw() {
   clear();
-  textAlign(CENTER, CENTER);
-  fill("white");
-  if (txts.length > 0) {
-    if (txts[0] != undefined && txts[0].length > 0) {
-      lastWritten = millis() * 0.001;
-      textSize(((64 / width) * 15000) / txts[0].length);
-      text(txts[0], width / 2, height / 2);
-    }
-    txts.shift();
-  }
+  noStroke();
+  fill(0);
+  rect(0,0,0.1*width,0.1*height)
+  // textAlign(CENTER, CENTER);
+  // fill("white");
+  // if (txts.length > 0) {
+  //   if (txts[0] != undefined && txts[0].length > 0) {
+  //     lastWritten = millis() * 0.001;
+  //     textSize(((64 / width) * 15000) / txts[0].length);
+  //     text(txts[0], width / 2, height / 2);
+  //   }
+  //   txts.shift();
+  // }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
 
 let txts = [];
