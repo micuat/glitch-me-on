@@ -35,3 +35,7 @@ button {
 #cameras button {
   float: left;
 }
+
+#hello-world-app {
+  padding: 50px;
+}

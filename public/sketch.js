@@ -27,27 +27,29 @@ function setup() {
   // p.hide();
 }
 
-const cornerPoints = [[.05,.03], [.95,.05],[.95,.95],[.05,.95]];
+const cornerPoints = [];//[[.05,.03], [.95,.05],[.95,.95],[.05,.95]];
 
 function draw() {
   clear();
-  noStroke();
+  stroke(0);
   fill(0);
   
-  const windowPoints = [[0,0], [1,0],[1,1],[0,1]];
-  beginShape(TRIANGLE_STRIP);
-  cornerPoints.forEach((el,i)=>{
-    const wp = windowPoints[i];
-    vertex(el[0]*width,el[1]*height)
-    vertex(wp[0]*width,wp[1]*height)
-  })
-  {
-    const wp = windowPoints[0];
-    const el = cornerPoints[0];
-    vertex(el[0]*width,el[1]*height)
-    vertex(wp[0]*width,wp[1]*height)
+  if(cornerPoints.length > 0) {
+    const windowPoints = [[0,0], [1,0],[1,1],[0,1]];
+    beginShape(TRIANGLE_STRIP);
+    cornerPoints.forEach((el,i)=>{
+      const wp = windowPoints[i];
+      vertex(el[0]*width,el[1]*height)
+      vertex(wp[0]*width,wp[1]*height)
+    })
+    {
+      const wp = windowPoints[0];
+      const el = cornerPoints[0];
+      vertex(el[0]*width,el[1]*height)
+      vertex(wp[0]*width,wp[1]*height)
+    }
+    endShape(CLOSE);
   }
-  endShape(CLOSE);
 
   // textAlign(CENTER, CENTER);
   // fill("white");
