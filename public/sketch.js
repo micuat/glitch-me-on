@@ -12,7 +12,9 @@ const socket = io();
 // hydra.height = hydraCanvas.height = window.innerHeight;
 
 var hydra = new Hydra({
-  canvas: document.getElementById("myCanvas")
+  canvas: document.getElementById("myCanvas"),
+  detectAudio: false,
+  enableStreamCapture: false,
 });
 
 s0.initCam();
