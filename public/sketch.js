@@ -407,3 +407,9 @@ socket.on("sliders", data => {
   v.sliders[2].val = data[2];
   v.sliders[3].val = data[3];
 });
+
+//download function
+function download() {
+    var dt = hydra.toDataURL('image/jpeg');
+    this.href = dt;
+};
