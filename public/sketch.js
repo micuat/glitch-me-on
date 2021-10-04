@@ -410,7 +410,7 @@ socket.on("sliders", data => {
 
 //download function
 function download() {
-    var dt = hydra.toDataURL('image/jpeg');
+    var dt = myCanvas.toDataURL('image/jpeg');
     this.href = dt;
 };
 //download 'button'
