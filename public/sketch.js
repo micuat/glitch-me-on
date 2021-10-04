@@ -413,3 +413,5 @@ function download() {
     var dt = hydra.toDataURL('image/jpeg');
     this.href = dt;
 };
+//download 'button'
+document.getElementById("downloadLnk").addEventListener('click', download, false);
