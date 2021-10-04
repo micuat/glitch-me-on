@@ -11,8 +11,13 @@ const socket = io();
 // hydra.width = hydraCanvas.width = window.innerWidth;
 // hydra.height = hydraCanvas.height = window.innerHeight;
 
+let myCanvas = document.getElementById("myCanvas");
+myCanvas.getContext("webgl", {
+  preserveDrawingBuffer: true
+});
+
 var hydra = new Hydra({
-  canvas: document.getElementById("myCanvas"),
+  canvas: myCanvas,
   detectAudio: false,
   enableStreamCapture: false,
 });
@@ -410,7 +415,7 @@ socket.on("sliders", data => {
 
 //download function
 function download() {
-    var dt = document.getElementById("myCanvas").toDataURL('image/jpeg');
+    var dt = myCanvas.toDataURL('image/jpeg');
     this.href = dt;
 };
 //download 'button'
