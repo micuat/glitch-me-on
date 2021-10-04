@@ -36,6 +36,13 @@ button {
   float: left;
 }
 
+.capture{
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-start;
+  margin: 10px 0 10px 50px;
+}
+
 #hello-world-app {
   padding: 50px;
   z-index: 3;
