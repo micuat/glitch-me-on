@@ -12,7 +12,7 @@ canvas {
 label {
   background-color: rgba(255,255,255,0.8);
 }
-button {
+.visuals > button {
   display:flex;
   flex-direction:row;
   justify-content:space-around;
@@ -107,11 +107,14 @@ background-color:'yellow';
 
 .modal-header h3 {
   margin-top: 0;
-  color: #42b983;
 }
 
 .modal-body {
   margin: 20px 0;
+}
+
+.modal-footer {
+  font-size: 0.8em;
 }
 
 .modal-default-button {

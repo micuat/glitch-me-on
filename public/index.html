@@ -16,17 +16,20 @@
           <div class="modal-wrapper">
             <div class="modal-container">
 
-              <h3>GlitchMe</h3>
-              <p>
-                how to use...
-              </p>
+              <div class="modal-header">
+                <h3>GlitchMe</h3>
+              </div>
 
-              <p>
-                Flor de Fuego & Naoto Hieda
-              </p>
-              <button class="modal-default-button" @click="$emit('close')">
-                start!
-              </button>
+              <div class="modal-body">
+                how to use... (under construction)
+              </div>
+
+              <div class="modal-footer">
+                Flor de Fuego & Naoto Hieda 2020-2021
+                <button class="modal-default-button" @click="$emit('close')">
+                  start!
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -36,7 +39,7 @@
   <body>
     <div id="hello-world-app" :key="componentKey">
       <h1>Glitch Me</h1>
-      <div v-for="(func, key, index) in funcs">
+      <div class="visuals" v-for="(func, key, index) in funcs">
         <button v-on:click="emit($event, key)">{{ key }}</button>
       </div>
       <div v-for="(slider, key) in sliders">
