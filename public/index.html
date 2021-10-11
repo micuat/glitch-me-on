@@ -9,6 +9,29 @@
     <link rel="stylesheet" type="text/css" href="/style.css" />
     <meta charset="utf-8" />
     <title>glitch me on glitch me</title>
+    
+    <script type="text/x-template" id="modal-template">
+      <transition name="modal">
+        <div class="modal-mask">
+          <div class="modal-wrapper">
+            <div class="modal-container">
+
+              <h3>GlitchMe</h3>
+              <p>
+                how to use...
+              </p>
+
+              <p>
+                Flor de Fuego & Naoto Hieda
+              </p>
+              <button class="modal-default-button" @click="$emit('close')">
+                start!
+              </button>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </script>
   </head>
   <body>
     <div id="hello-world-app" :key="componentKey">
@@ -37,10 +60,11 @@
           <button v-on:click="selectCamera($event, key)">{{ key }}</button>
         </div>
       </div>
+      <modal v-if="showModal" @close="showModal = false"></modal>
     </div>
-     <div class="capture">   
-    <a id="downloadLnk" download="glitchme.jpg">CAPTURE📷</a> 
-      </div>
+    <div class="capture">   
+      <a id="downloadLnk" download="glitchme.jpg">CAPTURE📷</a> 
+    </div>
     <canvas id="myCanvas" width="1280px" height="1280px"></canvas>
 
     <script src="sketch.js"></script>

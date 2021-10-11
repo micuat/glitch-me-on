@@ -85,6 +85,10 @@ function windowResized() {
 
 let txts = [];
 
+Vue.component("modal", {
+  template: "#modal-template"
+});
+
 var v = new Vue({
   el: "#hello-world-app",
   methods: {
@@ -157,6 +161,7 @@ var v = new Vue({
   // },
   data() {
     return {
+      showModal: true,
       componentKey: 0,
       message: "",
       cameraIds: [0, 1, 2],
