@@ -4,7 +4,6 @@
     <link rel="apple-touch-icon" href="https://cdn.glitch.me/c72a4136-b8ad-459a-8fb7-7948b6ed1b9a%2Fgmicon.png?v=1633460763187">
     <script src="https://unpkg.com/hydra-synth"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" type="text/css" href="/style.css" />
     <meta charset="utf-8" />
@@ -16,8 +15,8 @@
       <div class="visuals" v-for="(func, key, index) in funcs">
         <button v-on:click="emit($event, key)">{{ key }}</button>
       </div>
-      <div v-for="(slider, key) in sliders">
-        <div v-if="slider.name!='unused'">
+      <div v-for="(slider, key) in sliders" :key="key">
+        <div v-if="slider.show">
           <label>{{ slider.name }}</label>
           <input
             type="range"
@@ -29,8 +28,6 @@
           />
         </div>
       </div>
-<!--       <input v-model="message" v-on:keyup="messageKeyup" /> -->
-<!--       <button v-on:click="sendMessage">Send</button> -->
       <div>
         cameras:
         <div id="cameras" v-for="(placeholder, key) in cameraIds">
@@ -52,7 +49,7 @@
 
             <div class="modal-footer">
               Flor de Fuego & Naoto Hieda 2020-2021
-              <button class="modal-default-button" @click="$emit('close')">
+              <button class="modal-default-button" v-on:click="showModal = false">
                 start!
               </button>
             </div>
