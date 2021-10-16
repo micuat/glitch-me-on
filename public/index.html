@@ -10,7 +10,7 @@
     <title>glitch me on glitch me</title>
   </head>
   <body>
-    <div id="hello-world-app" :key="componentKey">
+    <div id="hello-world-app">
       <h1>Glitch Me</h1>
       <div class="visuals" v-for="(func, key, index) in funcs">
         <button v-on:click="emit($event, key)">{{ key }}</button>
@@ -58,7 +58,7 @@
       </div>
     </div>
     <div class="capture">   
-      <a id="downloadLnk" download="glitchme.jpg">CAPTURE📷</a> 
+      <a id="downloadLnk" download="glitchme.jpg" v-on:click="download">CAPTURE📷</a> 
     </div>
     <canvas id="myCanvas" width="1280px" height="1280px"></canvas>
 

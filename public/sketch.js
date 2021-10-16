@@ -1,6 +1,6 @@
 const socket = io();
 
-let myCanvas = document.getElementById("myCanvas");
+var myCanvas = document.getElementById("myCanvas");
 myCanvas.getContext("webgl", {
   preserveDrawingBuffer: true
 });
@@ -15,10 +15,21 @@ s0.initCam();
 
 var v = new Vue({
   el: "#hello-world-app",
+  mixins: [{
+    created() {
+      // https://laracasts.com/discuss/channels/vue/close-a-modal-with-the-escape-key
+      const escapeHandler = (e) => {
+        if (e.key === 'Escape') {
+          this.showModal = false;
+        }
+      }
+      document.addEventListener('keydown', escapeHandler);
+      this.$once('hook:destroyed', () => {
+        document.removeEventListener('keydown', escapeHandler);
+      });
+    }
+  }],
   methods: {
-    init() {
-      console.log("oi")
-    },
     forceRerender() {
       this.componentKey += 1;
     },
@@ -223,7 +234,6 @@ var v = new Vue({
             }
           ]
         },
-        //here
         blazer: {
           f: () => {
             src(o0)
@@ -239,10 +249,9 @@ var v = new Vue({
   }
 });
 
-let numGuests = 0;
 socket.on("hello", data => {
-  console.log(data);
-  numGuests = data.numGuests;
+  // console.log(data);
+  // numGuests = data.numGuests;
 });
 
 socket.on("func", data => {
@@ -267,9 +276,11 @@ socket.on("sliders", data => {
 });
 
 //download function
-function download() {
-    var dt = myCanvas.toDataURL('image/jpeg');
-    this.href = dt;
+function download(e) {
+  console.log(e)
+  e.preventDefault();
+  var dt = myCanvas.toDataURL('image/jpeg');
+  this.href = dt;
 };
 //download 'button'
-document.getElementById("downloadLnk").addEventListener('click', download, false);
+// document.getElementById("downloadLnk").addEventListener('click', download, false);
