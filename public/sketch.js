@@ -75,6 +75,10 @@ var v = new Vue({
       this.applyFunc(key);
       socket.emit("func", key);
     },
+    download: function(e) {
+      var dt = myCanvas.toDataURL('image/jpeg');
+      e.currentTarget.href = dt;
+    }
   },
   data() {
     return {
@@ -275,12 +279,5 @@ socket.on("sliders", data => {
   v.sliders[3].val = data[3];
 });
 
-//download function
-function download(e) {
-  console.log(e)
-  e.preventDefault();
-  var dt = myCanvas.toDataURL('image/jpeg');
-  this.href = dt;
-};
 //download 'button'
 // document.getElementById("downloadLnk").addEventListener('click', download, false);

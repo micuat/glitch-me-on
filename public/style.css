@@ -36,6 +36,10 @@ label {
   float: left;
 }
 
+.unset {
+  float: unset;
+}
+
 .capture{
   display:flex;
   flex-direction:row;
