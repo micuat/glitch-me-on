@@ -127,7 +127,7 @@ var v = new Vue({
         // create functions to use with buttons
         ohNoise: {
           f: () => {
-            src(s0)
+            src(s0).scale(1,-1)
               .color(-1, Math.random() * 2, 1)
               .colorama()
               .out();
@@ -138,7 +138,7 @@ var v = new Vue({
         },
         glitchyScan: {
           f: () => {
-            src(s0)
+            src(s0).scale(1,-1)
               .saturate(2)
               .contrast(1.3)
               .layer(
@@ -178,7 +178,7 @@ var v = new Vue({
               .modulate(o0, 0.001)
               .rotate(this.v1)
               .layer(
-                src(s0)
+                src(s0).scale(1,-1)
                   .thresh(() => Math.sin(time / 3) * 0.1 + 0.5)
                   .luma()
                   .invert()
@@ -207,7 +207,7 @@ var v = new Vue({
               .scroll(this.v1, this.v2)
               .modulateHue(src(o0).scale(1.01), 8)
               .layer(
-                src(s0)
+                src(s0).scale(1,-1)
                   .luma(0.3)
                   .hue(() => time / 10)
               )
@@ -242,7 +242,7 @@ var v = new Vue({
           f: () => {
             src(o0)
               .saturate(1.05)
-              .layer(src(s0).luma())
+              .layer(src(s0).scale(1,-1).luma())
               .out();
             render(o0);
           },

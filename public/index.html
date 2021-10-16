@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" href="https://cdn.glitch.me/c72a4136-b8ad-459a-8fb7-7948b6ed1b9a%2Fgmicon.png?v=1633460763187">
     <script src="https://unpkg.com/hydra-synth"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
@@ -33,8 +34,7 @@
         <div id="cameras" v-for="(placeholder, key) in cameraIds">
           <button v-on:click="selectCamera($event, key)">{{ key }}</button>
         </div>
-        <div class="unset">
-        </div>
+        <div class="clear-both"></div>
       </div>
       <div v-if="showModal" class="modal-mask">
         <div class="modal-wrapper">
