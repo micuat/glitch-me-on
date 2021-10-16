@@ -12,6 +12,11 @@
   </head>
   <body>
     <div id="hello-world-app">
+      <nav>
+        <div>
+          howto
+        </div>
+      </nav>
       <h1>Glitch Me</h1>
       <div class="visuals" v-for="(func, key, index) in funcs">
         <button v-on:click="emit($event, key)">{{ key }}</button>
@@ -36,6 +41,7 @@
         </div>
         <div class="clear-both"></div>
       </div>
+      <!--   MODAL     -->
       <div v-if="showModal" class="modal-mask">
         <div class="modal-wrapper">
           <div class="modal-container">

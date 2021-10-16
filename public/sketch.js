@@ -30,9 +30,6 @@ var v = new Vue({
     }
   }],
   methods: {
-    forceRerender() {
-      this.componentKey += 1;
-    },
     v0: function() {
       const s = this.sliders[0];
       return (s.val / 128) * (s.max - s.min) + s.min;
@@ -278,6 +275,3 @@ socket.on("sliders", data => {
   v.sliders[2].val = data[2];
   v.sliders[3].val = data[3];
 });
-
-//download 'button'
-// document.getElementById("downloadLnk").addEventListener('click', download, false);
