@@ -79,7 +79,7 @@ var v = new Vue({
   },
   data() {
     return {
-      showModal: true,
+      showModal: 'howto',
       componentKey: 0,
       message: "",
       cameraIds: [0, 1, 2],

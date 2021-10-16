@@ -18,6 +18,13 @@ nav {
 	align-content: stretch;
 }
 
+nav div {
+  margin: .5em;
+  padding: .2em;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
 canvas {
   display: block;
 }

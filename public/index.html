@@ -13,8 +13,11 @@
   <body>
     <div id="hello-world-app">
       <nav>
-        <div>
+        <div v-on:click="showModal = 'howto'">
           howto
+        </div>
+        <div v-on:click="showModal = 'contacts'">
+          contacts
         </div>
       </nav>
       <h1>Glitch Me</h1>
@@ -50,10 +53,26 @@
               <h3>GlitchMe</h3>
             </div>
 
-            <div class="modal-body">
+            <div v-if="showModal === 'howto'" class="modal-body">
               <p>Use buttons and sliders to modify visuals or download a capture. Anyone who is visiting the website can modify your visuals as well as you can modify theirs!</p>
-           <p>Utiliza los botones y sliders para modoficar las visuales o guardar capturas. Quien este visitando la web puede modificar tus visuales, así como también vos podes modificar las suyas!</P> 
-           </div>
+               <p>Utiliza los botones y sliders para modoficar las visuales o guardar capturas. Quien este visitando la web puede modificar tus visuales, así como también vos podes modificar las suyas!</P> 
+            </div>
+
+            <div v-if="showModal === 'contacts'" class="modal-body">
+              <h3>
+              Flor de Fuego
+              </h3>
+              <p>
+                <a href="mailto:imagenesyprocesosdigitales@gmail.com">imagenesyprocesosdigitales@gmail.com</a><br>
+                <a href="https://flordefuego.github.io/">https://flordefuego.github.io</a><br>
+                Twitter: <a href="https://twitter.com/flordefuego4">@flordefuego4</a><br>
+                Instagram: <a href="https://www.instagram.com/flordefuega/">@flordefuega</a>
+              </p>
+              <h3>
+              Naoto Hieda
+              </h3>
+              <p><a href="mailto:mail@naotohieda.com">mail@naotohieda.com</a></p>
+            </div>
 
             <div class="modal-footer">
               Flor de Fuego & Naoto Hieda 2020-2021
