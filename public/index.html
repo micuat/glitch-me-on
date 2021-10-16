@@ -9,33 +9,6 @@
     <link rel="stylesheet" type="text/css" href="/style.css" />
     <meta charset="utf-8" />
     <title>glitch me on glitch me</title>
-    
-    <script type="text/x-template" id="modal-template">
-      <transition name="modal">
-        <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-container">
-
-              <div class="modal-header">
-                <h3>GlitchMe</h3>
-              </div>
-
-              <div class="modal-body">
-                <p>Use buttons and sliders to modify visuals or download a capture. Anyone who is visiting the website can modify your visuals as well as you can modify theirs!</p>
-             <p>Utiliza los botones y sliders para modoficar las visuales o guardar capturas. Quien este visitando la web puede modificar tus visuales, así como también vos podes modificar las suyas!</P> 
-             </div>
-
-              <div class="modal-footer">
-                Flor de Fuego & Naoto Hieda 2020-2021
-                <button class="modal-default-button" @click="$emit('close')">
-                  start!
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </transition>
-    </script>
   </head>
   <body>
     <div id="hello-world-app" :key="componentKey">
@@ -64,7 +37,28 @@
           <button v-on:click="selectCamera($event, key)">{{ key }}</button>
         </div>
       </div>
-      <modal v-if="showModal" @close="showModal = false"></modal>
+      <div v-if="showModal" class="modal-mask">
+        <div class="modal-wrapper">
+          <div class="modal-container">
+
+            <div class="modal-header">
+              <h3>GlitchMe</h3>
+            </div>
+
+            <div class="modal-body">
+              <p>Use buttons and sliders to modify visuals or download a capture. Anyone who is visiting the website can modify your visuals as well as you can modify theirs!</p>
+           <p>Utiliza los botones y sliders para modoficar las visuales o guardar capturas. Quien este visitando la web puede modificar tus visuales, así como también vos podes modificar las suyas!</P> 
+           </div>
+
+            <div class="modal-footer">
+              Flor de Fuego & Naoto Hieda 2020-2021
+              <button class="modal-default-button" @click="$emit('close')">
+                start!
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="capture">   
       <a id="downloadLnk" download="glitchme.jpg">CAPTURE📷</a> 
