@@ -252,11 +252,15 @@ var v = new Vue({
   }
 });
 
-Vue.directive('focus', {
-     mounted(el) { // When the bound element is inserted into the DOM...
-       el.focus() // Focus the element
-     }
- })
+// Vue.directive('focus', {
+//      mounted(el) { // When the bound element is inserted into the DOM...
+//        el.focus() // Focus the element
+//      }
+//  })
+
+window.addEventListener("keydown", () => {
+  v.showModal = false;
+})
 
 socket.on("hello", data => {
   // console.log(data);
