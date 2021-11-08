@@ -1,3 +1,5 @@
+/* global Vue */
+
 const socket = io();
 
 var myCanvas = document.getElementById("myCanvas");
@@ -249,6 +251,12 @@ var v = new Vue({
     };
   }
 });
+
+Vue.directive('focus', {
+     mounted(el) { // When the bound element is inserted into the DOM...
+       el.focus() // Focus the element
+     }
+ })
 
 socket.on("hello", data => {
   // console.log(data);
