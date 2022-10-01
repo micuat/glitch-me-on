@@ -1,5 +1,12 @@
 /* global Vue */
 
+const urlParams = new URLSearchParams(window.location.search);
+const qrMode = urlParams.get("qr") !== null || window.location.pathname !== "/";
+
+if (qrMode) {
+  document.getElementById("qrcode").style.display = "block"
+}
+
 const socket = io();
 
 var myCanvas = document.getElementById("myCanvas");

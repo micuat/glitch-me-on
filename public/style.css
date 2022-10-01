@@ -162,3 +162,12 @@ background-color:'yellow';
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
+
+#qrcode {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+}
