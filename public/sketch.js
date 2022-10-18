@@ -265,9 +265,28 @@ var v = new Vue({
 //      }
 //  })
 
+let lastActivity = 0;
+
 window.addEventListener("keydown", () => {
   v.showModal = false;
+  lastActivity = +new Date;
 })
+
+window.addEventListener("mousemove", () => {
+  lastActivity = +new Date;
+})
+
+window.addEventListener("mousedown", () => {
+  lastActivity = +new Date;
+})
+
+if (qrMode) {
+  setInterval(() => {
+    if (new Date - lastActivity > 120 * 1000) {
+      v.showModal = 'howto';
+    }
+  }, 1000);
+}
 
 socket.on("hello", data => {
   // console.log(data);

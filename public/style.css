@@ -167,7 +167,7 @@ background-color:'yellow';
   display: none;
   position: absolute;
   z-index: 10;
-  bottom: 0;
-  right: 0;
-  width: 200px;
+  bottom: 50px;
+  right: 50px;
+  width: 300px;
 }
